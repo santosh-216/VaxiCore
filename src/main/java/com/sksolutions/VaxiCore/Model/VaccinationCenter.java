@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -20,4 +22,9 @@ public class VaccinationCenter {
     @Enumerated(EnumType.STRING)
     CenterType centerType;
     String address;
+
+    @OneToMany(mappedBy = "center", cascade = CascadeType.ALL)
+    List<Doctor> doctors = new ArrayList<>();
+
+
 }

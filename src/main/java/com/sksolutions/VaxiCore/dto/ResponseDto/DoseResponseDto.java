@@ -1,15 +1,20 @@
-package com.sksolutions.VaxiCore.dto.RequestDto;
+package com.sksolutions.VaxiCore.dto.ResponseDto;
 
 import com.sksolutions.VaxiCore.Enum.DoseType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
-public class BookDose1RequestDto {
-    int id;
+@Getter
+public class DoseResponseDto {
+    String name;
+    String doseId;
     DoseType doseType;
+    Date vaccinationDate;
 }

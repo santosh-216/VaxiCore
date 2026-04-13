@@ -1,10 +1,9 @@
 package com.sksolutions.VaxiCore.Repository;
 
-import com.sksolutions.VaxiCore.Model.Person;
+import com.sksolutions.VaxiCore.Model.VaccinationCenter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person,Integer> {
-    Person findByEmailId(String oldEmail);
+public interface VaccinationCenterRepository extends JpaRepository<VaccinationCenter,Integer> {
 }

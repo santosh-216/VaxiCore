@@ -1,11 +1,14 @@
 package com.sksolutions.VaxiCore.Service;
 
+import com.sksolutions.VaxiCore.Exception.PersonNotFoundException;
 import com.sksolutions.VaxiCore.Model.Person;
 import com.sksolutions.VaxiCore.Repository.PersonRepository;
 import com.sksolutions.VaxiCore.dto.RequestDto.AddPersonRequestDto;
 import com.sksolutions.VaxiCore.dto.ResponseDto.AddPersonResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PersonService {
@@ -36,4 +39,13 @@ public class PersonService {
     }
 
 
+    public String updateEMail(String oldEmail, String newEmail) {
+        Person person = personRepository.findByEmailId(oldEmail);
+        if(person == null){
+            throw new PersonNotFoundException("Sorry email doesn't exist");
+        }
+        person.setEmailId(newEmail);
+        personRepository.save(person);
+        return "Congrats!! Your email has been updated successfully";
+    }
 }

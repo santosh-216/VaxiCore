@@ -1,19 +1,17 @@
 package com.sksolutions.VaxiCore.Service;
 
-import com.sksolutions.VaxiCore.Enum.DoseType;
 import com.sksolutions.VaxiCore.Exception.DoseAlreadyTakenException;
 import com.sksolutions.VaxiCore.Exception.PersonNotFoundException;
 import com.sksolutions.VaxiCore.Model.Dose;
 import com.sksolutions.VaxiCore.Model.Person;
 import com.sksolutions.VaxiCore.Repository.DoseRepository;
 import com.sksolutions.VaxiCore.Repository.PersonRepository;
-import com.sksolutions.VaxiCore.dto.RequestDto.BookDose1RequestDto;
-import com.sksolutions.VaxiCore.dto.ResponseDto.Dose1ResponseDto;
+import com.sksolutions.VaxiCore.dto.RequestDto.BookDoseRequestDto;
+import com.sksolutions.VaxiCore.dto.ResponseDto.DoseResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,8 +51,8 @@ public class DoseService {
 //
 //    }
 
-    public Dose1ResponseDto getDose1(BookDose1RequestDto bookDose1RequestDto){
-        Optional<Person> personResponse = personRepository.findById(bookDose1RequestDto.getId());
+    public DoseResponseDto getDose1(BookDoseRequestDto bookDoseRequestDto){
+        Optional<Person> personResponse = personRepository.findById(bookDoseRequestDto.getId());
 //        check if person exists or not
         if(!personResponse.isPresent()){
             throw new PersonNotFoundException("Invalid PersonId");
@@ -67,7 +65,7 @@ public class DoseService {
 
         Dose dose = new Dose();
         dose.setDoseId(String.valueOf(UUID.randomUUID()));
-        dose.setDoseType(bookDose1RequestDto.getDoseType());
+        dose.setDoseType(bookDoseRequestDto.getDoseType());
         dose.setPerson(person);
 
         person.setDose1Taken(true);
@@ -75,14 +73,50 @@ public class DoseService {
 
         Person savedPerson = personRepository.save(person);
 
-        Dose1ResponseDto dose1ResponseDto = new Dose1ResponseDto();
+        DoseResponseDto dose1ResponseDto = new DoseResponseDto();
         dose1ResponseDto.setName(savedPerson.getName());
         dose1ResponseDto.setDoseId(dose.getDoseId());
         dose1ResponseDto.setDoseType(dose.getDoseType());
 //        the below line prints null instead of date we can use new Date() but not good practice
-        dose1ResponseDto.setVaccinationDate(dose.getVaccinationDate());
+//        dose1ResponseDto.setVaccinationDate(dose.getVaccinationDate());
 
+        dose1ResponseDto.setVaccinationDate(new Date());
         return dose1ResponseDto;
+
+    }
+
+
+    public DoseResponseDto getDose2(BookDoseRequestDto bookDoseRequestDto){
+        Optional<Person> personResponse = personRepository.findById(bookDoseRequestDto.getId());
+//        check if person exists or not
+        if(personResponse.isEmpty()){
+            throw new PersonNotFoundException("Invalid PersonId");
+        }
+        Person person = personResponse.get();
+//         check if dose 2 is already taken
+        if(person.getDose2Taken()){
+            throw new DoseAlreadyTakenException("Dose2 already taken");
+        }
+
+        Dose dose = new Dose();
+        dose.setDoseId(String.valueOf(UUID.randomUUID()));
+        dose.setDoseType(bookDoseRequestDto.getDoseType());
+        dose.setPerson(person);
+
+        person.setDose2Taken(true);
+        person.getDoseTaken().add(dose);
+
+        Person savedPerson = personRepository.save(person);
+
+        DoseResponseDto dose2ResponseDto = new DoseResponseDto();
+        dose2ResponseDto.setName(savedPerson.getName());
+        dose2ResponseDto.setDoseId(dose.getDoseId());
+        dose2ResponseDto.setDoseType(dose.getDoseType());
+//        the below line prints null instead of date we can use new Date() but not good practice
+//        dose1ResponseDto.setVaccinationDate(dose.getVaccinationDate());
+
+        dose2ResponseDto.setVaccinationDate(new Date());
+        return dose2ResponseDto;
 
     }
 

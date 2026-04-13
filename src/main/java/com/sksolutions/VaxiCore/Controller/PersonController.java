@@ -14,6 +14,7 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
+    //** AddPerson **//
     @PostMapping("/add")
     public ResponseEntity addPerson(@RequestBody AddPersonRequestDto addPersonRequestDto){
         try{
@@ -21,6 +22,18 @@ public class PersonController {
             return new ResponseEntity(personResponse, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity("Email already Existed",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //** update email **//
+    @PutMapping("/updateEmail")
+    public ResponseEntity updateEmail(@RequestParam("oldEmail") String oldEmail,
+                                      @RequestParam("newEmail") String newEmail){
+        try{
+            String updateResponse = personService.updateEMail(oldEmail,newEmail);
+            return new ResponseEntity(updateResponse,HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 }
