@@ -3,7 +3,7 @@ package com.sksolutions.VaxiCore.dto.ResponseDto;
 import com.sksolutions.VaxiCore.Enum.DoseType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -16,5 +16,6 @@ public class DoseResponseDto {
     String name;
     String doseId;
     DoseType doseType;
+    @CreationTimestamp
     Date vaccinationDate;
 }

@@ -19,8 +19,8 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String appointmentId;
+    @CreationTimestamp
     Date appointmentDate;
-    int doseNo;
 
     @ManyToOne
     @JoinColumn

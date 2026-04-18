@@ -27,7 +27,7 @@ public class Doctor {
     Gender gender;
 
     @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
-    List<Appointment> doctorList = new ArrayList<>();
+    List<Appointment> appointmentList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn

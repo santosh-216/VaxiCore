@@ -11,7 +11,6 @@ import com.sksolutions.VaxiCore.dto.ResponseDto.DoseResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +21,7 @@ public class DoseService {
 
     @Autowired
     PersonRepository personRepository;
+
 
 //    public Dose getDose1(int personId, DoseType doseType) {
 //
@@ -67,20 +67,19 @@ public class DoseService {
         dose.setDoseId(String.valueOf(UUID.randomUUID()));
         dose.setDoseType(bookDoseRequestDto.getDoseType());
         dose.setPerson(person);
+        Dose addedDose = doseRepository.save(dose);
 
         person.setDose1Taken(true);
-        person.getDoseTaken().add(dose);
+        person.getDoseTaken().add(addedDose);
 
         Person savedPerson = personRepository.save(person);
 
         DoseResponseDto dose1ResponseDto = new DoseResponseDto();
         dose1ResponseDto.setName(savedPerson.getName());
-        dose1ResponseDto.setDoseId(dose.getDoseId());
-        dose1ResponseDto.setDoseType(dose.getDoseType());
-//        the below line prints null instead of date we can use new Date() but not good practice
-//        dose1ResponseDto.setVaccinationDate(dose.getVaccinationDate());
+        dose1ResponseDto.setDoseId(addedDose.getDoseId());
+        dose1ResponseDto.setDoseType(addedDose.getDoseType());
+        dose1ResponseDto.setVaccinationDate(addedDose.getVaccinationDate());
 
-        dose1ResponseDto.setVaccinationDate(new Date());
         return dose1ResponseDto;
 
     }
@@ -102,20 +101,19 @@ public class DoseService {
         dose.setDoseId(String.valueOf(UUID.randomUUID()));
         dose.setDoseType(bookDoseRequestDto.getDoseType());
         dose.setPerson(person);
+        Dose addedDose = doseRepository.save(dose);
 
         person.setDose2Taken(true);
-        person.getDoseTaken().add(dose);
+        person.getDoseTaken().add(addedDose);
 
         Person savedPerson = personRepository.save(person);
 
         DoseResponseDto dose2ResponseDto = new DoseResponseDto();
         dose2ResponseDto.setName(savedPerson.getName());
-        dose2ResponseDto.setDoseId(dose.getDoseId());
-        dose2ResponseDto.setDoseType(dose.getDoseType());
-//        the below line prints null instead of date we can use new Date() but not good practice
-//        dose1ResponseDto.setVaccinationDate(dose.getVaccinationDate());
+        dose2ResponseDto.setDoseId(addedDose.getDoseId());
+        dose2ResponseDto.setDoseType(addedDose.getDoseType());
+        dose2ResponseDto.setVaccinationDate(addedDose.getVaccinationDate());
 
-        dose2ResponseDto.setVaccinationDate(new Date());
         return dose2ResponseDto;
 
     }
